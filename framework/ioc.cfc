@@ -900,6 +900,11 @@ component {
                     };
                     accumulator.injection[ beanName ] = setterMeta;
                     for ( var property in setterMeta.setters ) {
+                         if( structKeyExists( setterMeta.setters, property ) &&
+                             setterMeta.setters[ property ] == 'ignored' ) {
+                            // do not inject defaulted/typed properties!
+                            continue;
+                        }
                         accumulator.dependencies[ beanName ][ property ] = true;
                         if ( structKeyExists( overrides, property ) ) {
                             // skip resolution because we'll inject override
